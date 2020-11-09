@@ -1,5 +1,4 @@
-<!--
-Created: Wed Sep 18 2019 18:50:22 GMT+0800 (中国标准时间)
+<!--Created: Wed Sep 18 2019 18:50:22 GMT+0800 (中国标准时间)
 Modified: Wed Sep 18 2019 18:55:31 GMT+0800 (中国标准时间)
 -->
 
@@ -19,16 +18,14 @@ Modified: Wed Sep 18 2019 18:55:31 GMT+0800 (中国标准时间)
 
 **/
 
-# Basics of python
+
 
 <font size="8" color="orange">文档规则：1. 描述 2. 参数 3. 返回值 4. 实例 5. 参考链接</font>
 ==Content [^1]==
 
-[^1]: [Code Chunk](https://www.bookstack.cn/read/mpe/zh-cn-code-chunk.md)
+# Basics of python [^8]
 
-
-
-## 查看帮助文档:
+## 查看帮助文档: 
 
 - help(abs)
     - abs.\_\_text_signature\_\_
@@ -39,6 +36,46 @@ Modified: Wed Sep 18 2019 18:55:31 GMT+0800 (中国标准时间)
 
 - dir(abs)
     - abs.\_\_dict\_\_
+
+## 编码
+
+[【字符编码】彻底理解字符编码 - leesf - 博客园](https://www.cnblogs.com/leesf456/p/5317574.html)
+
+二进制
+
+- ASCII 只能存英文和拉丁字符：一个字符占一个字符， 8位
+- GB2312： 只能6700+中文，1980年
+- GBK1.0： 2万+字符，1996年
+- GB18030： 2万7千+中文， 2000年
+- <font color=red>Unicode</font>
+- UTF-8
+
+改变编码的方式：
+
+![image-20201106210628044](https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201106210628.png)
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201106221333.png" alt="20201106221333"  title="20201106221333" width="600" height="" /><figcaption><font color=green>20201106221333</font></figcaption></center></figure>
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201106221432.png" alt="20201106221432"  title="20201106221432" width="600" height="" /><figcaption><font color=green>20201106221432</font></figcaption></center></figure>
+
+
+
+1. python程序编码
+
+   - python编码
+
+   <figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201106205148.png" alt="20201106205148"  title="20201106205148" width="600" height="" /><figcaption><font color=green>20201106205148</font></figcaption></center></figure>
+
+   <figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201106215600.png" alt="20201106215600"  title="20201106215600" width="600" height="" /><figcaption><font color=green>20201106215600</font></figcaption></center></figure>
+
+   - 编辑器编码
+
+     <figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201106205945.png" alt="20201106205945"  title="20201106205945" width="600" height="" /><figcaption><font color=green>20201106205945</font></figcaption></center></figure>
+
+2. 系统编码 [^6][^7]
+
+
+## 垃圾回收机制 [^5]
 
 
 
@@ -180,15 +217,17 @@ a is b -->False
 ## <font color='lightgreen' >浅拷贝与深拷贝</font>
 
 - 对象(容器变量)存储地址
+    
     - 元素(数据)存储地址
-
+- 
+  
     | 操作   | 对象   | 对象中的元素 | 备注                                                         |
     | ------ | ------ | ------------ | ------------------------------------------------------------ |
     | 源对象 | id = 0 | id = 0a,0b   | 0是对象id<br>a,b是对象中的元素的id                           |
     | 赋值   | id = 0 | id = 0a,0b   | 对象id不变<br>数据id不变(==每一个数据==)                     |
     | 浅拷贝 | id = 1 | id = 1a,1b   | 对象id改变<br>数据id不变                                     |
-    | 深拷贝 | id = 1 | id = 1D,1,B  | 对象id改变<br>数据id改变(==指向不可变元素除外,元组,字符串等==) |
-
+| 深拷贝 | id = 1 | id = 1D,1,B  | 对象id改变<br>数据id改变(==指向不可变元素除外,元组,字符串等==) |
+    
     <font color='green' size=5 >如果原对象中的元素本身是不可变的，那么使用深\浅拷贝都无所谓</font>
 
 🤖浅拷贝：Python 会分配一块<font color='orange'>新的内存用于创建新的拷贝对象</font>，但拷贝对象中的元素依旧是原对象 (被拷贝对象) 中元素，即<font color='red'>拷贝对象与原对象的内存地址不同</font>，但<font color='orange'>两者中的元素具有相同的内存地址</font>
@@ -199,7 +238,43 @@ a is b -->False
 
 - 深拷贝,对象的内存地址不同,两对象中的对应元素的地址也不同
 
-### 浅拷贝
+### 浅拷贝shallow copy-仅copy第一层
+
+```python
+#重点:浅拷贝
+a=[[1,2],3,4]
+b=a[:]#b=a.copy()
+ 
+print(a,b)
+print(id(a),id(b))
+print('*************')
+print('a[0]:',id(a[0]),'b[0]:',id(b[0]))
+print('a[0][0]:',id(a[0][0]),'b[0][0]:',id(b[0][0]))
+print('a[0][1]:',id(a[0][1]),'b[0][1]:',id(b[0][1]))
+print('a[1]:',id(a[1]),'b[1]:',id(b[1]))
+print('a[2]:',id(a[2]),'b[2]:',id(b[2]))
+ 
+ 
+print('___________________________________________')
+b[0][0]=8
+ 
+print(a,b)
+print(id(a),id(b))
+print('*************')
+print('a[0]:',id(a[0]),'b[0]:',id(b[0]))
+print('a[0][0]:',id(a[0][0]),'b[0][0]:',id(b[0][0]))
+print('a[0][1]:',id(a[0][1]),'b[0][1]:',id(b[0][1]))
+print('a[1]:',id(a[1]),'b[1]:',id(b[1]))
+print('a[2]:',id(a[2]),'b[2]:',id(b[2]))<br><br><br>#outcome
+```
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108142621.png" alt="20201108142621"  title="20201108142621" width="600" height="" /><figcaption><font color=green>20201108142621</font></figcaption></center></figure>
+
+
+
+
+
+
 
 ```python
 import copy
@@ -249,8 +324,44 @@ print(id(lst1)==id(lst2),id(lst1)==id(lst3))
     - list () 方法实现浅拷贝
     - 切片操作 ':' 实现浅拷贝
     - copy.copy () 方法实现浅拷贝，copy.copy () 方法可以创建任意数据类型的浅拷贝😧
+    
+    ```python
+    import json
+    husband = ['xiaohu', 123, [15000, 9000]]
+    wife = husband.copy()
+    wife[0] = 'xiaopang'
+    wife[1] = 345
+    husband[2][1] -= 3000
+    husband_information = {
+        'husband':husband,
+        'husband_id': id(husband),
+        'husband[0]_id': [id(husband[0]), husband[0]],
+        'husband[1]_id': [id(husband[1]), husband[1]],
+        'husband[2]_id': [id(husband[2]), husband[2]],
+        'husband[2][0]_id': [id(husband[2][0]), husband[2][0]],
+        'husband[2][1]_id': [id(husband[2][1]), husband[2][1]]
+    }
+    
+    wife_information = {
+        'wife': wife,
+        'wife_id': id(wife),
+        'wife[0]_id': [id(wife[0]), wife[0]],
+        'wife[1]_id': [id(wife[1]), wife[1]],
+        'wife[2]_id': [id(wife[2]), wife[2]],
+        'wife[2][0]_id': [id(wife[2][0]), wife[2][0]],
+        'wife[2][1]_id': [id(wife[2][1]), wife[2][1]]
+    }
+    print('husband_information:\n', json.dumps(husband_information, indent =4))
+    print('wife_information:\n', json.dumps(wife_information, indent = 4))
+    ```
+    
+    
 
-### 深拷贝
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108140438.png" alt="浅copy应用-夫妻信用卡"  title="浅copy应用-夫妻信用卡" width="600" height="" /><figcaption><font color=green>浅copy应用-夫妻信用卡</font></figcaption></center></figure>
+
+### 深拷贝-克隆
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108141252.png" alt="20201108141252"  title="20201108141252" width="600" height="" /><figcaption><font color=green>20201108141252</font></figcaption></center></figure>
 
 
 
@@ -317,7 +428,7 @@ import keyword
 print(keyword.kwlist)
 ```
 
-## 常⽤的数据类型转换
+## 常⽤的数据类型转换 [^2]
 
 | 函数                    | 说明                                               |
 | ----------------------- | -------------------------------------------------- |
@@ -758,6 +869,25 @@ while n <= 100:
 print('END')
 ```
 
+## 标志位关联
+
+```python
+exit_flag = Flase
+
+for i in range(10):
+    if i < 5:
+        continue
+    print(i)
+    for j in range(10):
+        print("layer2":j)
+        if j == 6:
+            exit_flag = True
+    if exit_flag:
+        break
+```
+
+
+
 # Container
 
 [(Back to 面向过程编程)](#面向过程编程)
@@ -1159,6 +1289,13 @@ while i<length:
 `t = ()`
 - 定义⼀个只有1个元素的tuple,只有1个元素的tuple定义时必须加⼀个逗号，来消除歧义-(表达式)：
 `t = (1,)`
+```python
+set('123')
+{'1', '2', '3'}
+```
+
+
+
 > 最后来看⼀个“可变的”tuple：
 > ```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
 > t = ('a', 'b', ['A', 'B'])
@@ -1168,6 +1305,21 @@ while i<length:
 > '('a', 'b', ['X', 'Y'])'
 > ```
 - ==元组中的元素应该指向不可变的类型==class-字符串,常量,而不是可变类型列表等
+
+```python
+# 查看python版本
+import sys 
+sys.version
+# '3.8.3 (default, Jul  2 2020, 17:30:36) [MSC v.1916 64 bit (AMD64)]'
+```
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108143154.png" alt="20201108143154"  title="20201108143154" width="600" height="" /><figcaption><font color=green>20201108143154</font></figcaption></center></figure>
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108144102.png" alt="20201108144102"  title="20201108144102" width="600" height="" /><figcaption><font color=green>20201108144102</font></figcaption></center></figure>
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108144705.png" alt="20201108144705"  title="20201108144705" width="600" height="" /><figcaption><font color=green>20201108144705</font></figcaption></center></figure>
+
+
 
 ## 字典（dict）
 
@@ -1337,7 +1489,7 @@ for e in kw:
 
 
 
-# 函数
+# 函数 [^2]
 
 [(Back to 面向过程编程)](#面向过程编程)
 
@@ -1348,10 +1500,18 @@ for e in kw:
 
 ### 定义函数
 
+计算机函数： subroutine 子程序 / procedures 过程
+
 ```python {class='line-numbers'}
 def 函数名():
     代码
 ```
+### 作用
+
+- 代码重用
+- 保持代码一致性
+- 方便维护和扩展
+
 ### 调用函数
 
 函数名() 即可完成调⽤
@@ -1362,6 +1522,237 @@ def 函数名():
 
 - 每次调⽤函数时，函数都会==从头==开始执行，当这个函数中的代码执完毕后，意味着调⽤结束了
 - 当然了如果函数中执行到了return也会==结束==函数
+
+### 函数作用域
+
+####  **作用域介绍**
+
+python中的作用域分4种情况：
+
+- L：local，局部作用域，即函数中定义的变量；
+- E：enclosing，嵌套的父级函数的局部作用域，即包含此函数的上级函数的局部作用域，但不是全局的；
+- G：globa，全局变量，就是模块级别定义的变量；
+- B：built-in，系统固定模块里面的变量，比如int, bytearray等。 搜索变量的优先级顺序依次是：作用域局部>外层作用域>当前模块中的全局>python内置作用域，也就是LEGB。
+
+```python
+x = int(2.9)  # int built-in
+ 
+g_count = 0  # global
+def outer():
+    o_count = 1  # enclosing
+    def inner():
+        i_count = 2  # local
+        print(o_count)
+    # print(i_count) 找不到
+    inner() 
+outer()
+ 
+# print(o_count) #找不到
+```
+
+当然，local和enclosing是相对的，enclosing变量相对上层来说也是local。
+
+#### 作用域产生
+
+在Python中，只有模块（module），类（class）以及函数（def、lambda）才会引入新的作用域，其它的代码块（如if、try、for等）是不会引入新的作用域的，如下代码：
+
+```python
+if 2>1:
+    x = 1
+print(x)  # 1
+```
+
+这个是没有问题的，if并没有引入一个新的作用域，x仍处在当前作用域中，后面代码可以使用。
+
+```python
+def test():
+    x = 2
+print(x) # NameError: name 'x2' is not defined
+```
+
+def、class、lambda是可以引入新作用域的。 
+
+#### **变量的修改**
+
+```python
+#################
+x=6
+def f2():
+    print(x)
+    x=5
+f2()
+  
+# 错误的原因在于print(x)时,解释器会在局部作用域找,会找到x=5(函数已经加载到内存),但x使用在声明前了,所以报错:
+# local variable 'x' referenced before assignment.如何证明找到了x=5呢?简单:注释掉x=5,x=6
+# 报错为:name 'x' is not defined
+#同理
+x=6
+def f2():
+    x+=1 #local variable 'x' referenced before assignment.
+f2()
+```
+
+#### **global关键字**
+
+当内部作用域想修改外部作用域的变量时，就要用到global和nonlocal关键字了，当修改的变量是在全局作用域（global作用域）上的，就要使用global先声明一下，代码如下：
+
+```python
+count = 10
+def outer():
+    global count
+    print(count) 
+    count = 100
+    print(count)
+outer()
+#10
+#100
+```
+
+#### **nonlocal关键字**
+
+global关键字声明的变量必须在全局作用域上，不能嵌套作用域上，当要修改嵌套作用域（enclosing作用域，外层非全局作用域）中的变量怎么办呢，这时就需要nonlocal关键字了
+
+```python
+def outer():
+    count = 10
+    def inner():
+        nonlocal count
+        count = 20
+        print(count)
+    inner()
+    print(count)
+outer()
+#20
+#20　
+```
+
+#### **小结**
+
+（1）变量查找顺序：LEGB，作用域局部>外层作用域>当前模块中的全局>python内置作用域；
+
+（2）只有模块、类、及函数才能引入新作用域；
+
+（3）对于一个变量，内部作用域先声明就会覆盖外部变量，不声明直接使用，就会使用外部作用域的变量；
+
+（4）内部作用域要修改外部作用域变量的值时，全局变量要使用global关键字，嵌套作用域变量要使用nonlocal关键字。nonlocal是python3新增的关键字，有了这个 关键字，就能完美的实现闭包了。 
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108161311.png" alt="20201108161311"  title="20201108161311" width="600" height="" /><figcaption><font color=green>20201108161311</font></figcaption></center></figure>
+
+
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108161101.png" alt="20201108161101"  title="20201108161101" width="600" height="" /><figcaption><font color=green>20201108161101</font></figcaption></center></figure>
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201108161617.png" alt="20201108161617"  title="20201108161617" width="600" height="" /><figcaption><font color=green>20201108161617</font></figcaption></center></figure>
+
+#### 局部变量
+
+局部变量
+:   在函数内部定义的变量
+
+作⽤范围
+:   作⽤范围是这个函数内部，即只能在这个函数中使用，在函数的外部是不能使用的。因为其作⽤范围只是在⾃己的函数内部，所以不同的函数可以定义相同名字的局部变量
+
+- 局部变量的作用，为了临时保存数据需要在函数中定义变量来进行存储。
+- 当函数调用时，局部变量被创建，当函数调用完成后这个变量就不能够使用了
+
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+def show():
+# 局部变量
+    score = 100
+    print("分数:", score)
+show()   # show() is called
+# print(score)  #score is a local variable, not called outside the show()
+```
+
+#### 全局变量
+
+全局变量
+:   一个变量，既能在一个函数中使用，也能在其他的函数中使用
+
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+# 定义全局变量
+a = 100
+def test1():
+    print(a) # 虽然没有定义变量a但是依然可以获取其数据
+def test2():
+    print(a) # 虽然没有定义变量a但是依然可以获取其数据
+# 调⽤函数
+test1()
+test2()
+
+```
+
+
+
+- 在函数外边定义的变量叫做全局变量
+- 全局变量能够在所有的函数中进⾏访问
+  a. 全局变量和局部变量名字相同问题
+
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+# 定义全局变量
+a = 100
+def test1():
+    # 定义局部变量
+    a = 300
+    print('---test1---%d'%a)  #300
+    #修改
+    a = 200
+    print('修改后的%d'%a)   #200
+def test2():
+    print('a = %d'%a)   #100
+test1()
+test2()
+```
+
+
+当函数内出现局部变量和全局变量相同名字时，函数内部中的 ==变量名=数据== 此时理解为==定义了一个局部变量，⽽不是修改全局变量的值==
+
+b. 修改全局变量
+
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+# 定义全局变量
+a = 100
+def test1():
+    # 定义局部变量
+    global a
+    print('修改之前：%d'%a)    #100
+    #修改
+    a = 200
+    print('修改后的%d'%a)   #200
+def test2():
+    print('a = %d'%a)  #200
+test1()
+test2()
+
+
+```
+
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+# 循环遍历后,变量value保留了可迭代对象中的最后一个对象
+for value in range(0,5):
+    # value =0
+    # value =1.... value=4
+    print(value)
+
+print(value+3) # 4+ 3=7
+
+```
+
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+# 函数
+i = 1
+def show():
+#     i = 1
+' check i ---> = i + 1'
+	# 局部变量变量i,未建先用-->表达式从左至右检查变量
+    i = i + 1  #UnboundLocalError: local variable 'i' referenced before assignment
+#     a = i + 1
+show()
+
+```
+
+
+
 ## 函数的文档说明
 
 ```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
@@ -4334,104 +4725,8 @@ print(fact(3))
 - 尾递归事实上和循环是等价的，没有循环语句的编程语⾔只能通过尾递归实现循环。
 - Python标准的解释器没有针对尾递归做优化，任何递归函数都存在栈溢出的问题。
 
-# 局部变量
-
-局部变量
-:   在函数内部定义的变量
-
-作⽤范围
-:   作⽤范围是这个函数内部，即只能在这个函数中使用，在函数的外部是不能使用的。因为其作⽤范围只是在⾃己的函数内部，所以不同的函数可以定义相同名字的局部变量
-- 局部变量的作用，为了临时保存数据需要在函数中定义变量来进行存储。
-- 当函数调用时，局部变量被创建，当函数调用完成后这个变量就不能够使用了
-```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
-def show():
-# 局部变量
-    score = 100
-    print("分数:", score)
-show()   # show() is called
-# print(score)  #score is a local variable, not called outside the show()
-```
-# 全局变量
-
-全局变量
-:   一个变量，既能在一个函数中使用，也能在其他的函数中使用
-```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
-# 定义全局变量
-a = 100
-def test1():
-    print(a) # 虽然没有定义变量a但是依然可以获取其数据
-def test2():
-    print(a) # 虽然没有定义变量a但是依然可以获取其数据
-# 调⽤函数
-test1()
-test2()
-
-```
-## 总结
-
-- 在函数外边定义的变量叫做全局变量
-- 全局变量能够在所有的函数中进⾏访问
-a. 全局变量和局部变量名字相同问题
-```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
-# 定义全局变量
-a = 100
-def test1():
-    # 定义局部变量
-    a = 300
-    print('---test1---%d'%a)  #300
-    #修改
-    a = 200
-    print('修改后的%d'%a)   #200
-def test2():
-    print('a = %d'%a)   #100
-test1()
-test2()
-```
 
 
-当函数内出现局部变量和全局变量相同名字时，函数内部中的 ==变量名=数据== 此时理解为==定义了一个局部变量，⽽不是修改全局变量的值==
-
-b. 修改全局变量
-```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
-# 定义全局变量
-a = 100
-def test1():
-    # 定义局部变量
-    global a
-    print('修改之前：%d'%a)    #100
-    #修改
-    a = 200
-    print('修改后的%d'%a)   #200
-def test2():
-    print('a = %d'%a)  #200
-test1()
-test2()
-
-
-```
-
-```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
-# 循环遍历后,变量value保留了可迭代对象中的最后一个对象
-for value in range(0,5):
-    # value =0
-    # value =1.... value=4
-    print(value)
-
-print(value+3) # 4+ 3=7
-
-```
-```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
-# 函数
-i = 1
-def show():
-#     i = 1
-' check i ---> = i + 1'
-	# 局部变量变量i,未建先用-->表达式从左至右检查变量
-    i = i + 1  #UnboundLocalError: local variable 'i' referenced before assignment
-#     a = i + 1
-show()
-
-```
 # 随机创建一个电话号
 
 ```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
@@ -4477,3 +4772,510 @@ for index in range(0,10):   # 10次
 ```
 ---
 
+#  装饰器 [^4][^9]
+
+> 装饰器本质上是一个函数，该函数用来处理其他函数，它可以让其他函数在不需要修改代码的前提下增加额外的功能，装饰器的返回值也是一个函数对象。它经常用于有切面需求的场景，比如：插入日志、性能测试、事务处理、缓存、权限校验等应用场景。装饰器是解决这类问题的绝佳设计，有了装饰器，我们就可以抽离出大量与函数功能本身无关的雷同代码并继续重用。
+<font color=red>概括的讲，装饰器的作用就是为已经存在的对象添加额外的功能</font>
+
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201109192117.png" alt="Decorator function"  title="Decorator function" width="600" height="" /><figcaption><font color=green>Decorator function</font></figcaption></center></figure>
+
+- 装饰器（涉及的三个知识点）：
+
+  - 作用域（执行函数时：在内存中查找变量-->L-E-G-B，执行完毕后清楚该函数内存)
+
+    - built-in
+      - global
+        - enclosing
+          - local
+
+  - 高阶函数（满足任意一个条件）
+
+    - 函数名可以作为参数输入
+
+      - ```python
+        # 函数名可以作为参数输入
+        def add(x,y):
+        	return x + y
+        def outer(x,y, add):
+        	return add(x,y)
+        outer(x,y, add)
+        ```
+
+```PYTHON 
+import time 
+def  wrapper(func):
+        def inner():
+              start=time.time()
+              func()
+              end=time.time()
+              print(end-start)
+        return inner 
+    
+def  hahaha():
+        time.sleep(1)
+        print('aaaaa')
+hahaha=wrapper(hahaha)
+hahaha()   
+```
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201109203155.png" alt="20201109203155"  title="20201109203155" width="600" height="" /><figcaption><font color=green>20201109203155</font></figcaption></center></figure>
+
+> 上面的功能有点不简介，不完美，下面就引进了语法糖。
+```python
+import time
+def wrapper(func):
+        def inner():
+               start=time.time()
+               func()
+               end=time.time()
+               print(end-start)
+        return inner
+@wrapper #相当于kkk=wrapper(kkk)
+def  kkk():
+    print('aaaaa')
+kkk()
+# 装饰器-------语法糖
+```
+
+    - 函数名可以作为返回值
+
+      - ```python
+    #函数名可以作为返回值
+        def outer():
+            x = 10
+            def inner(): 
+                print(x)  
+            return inner
+        f = outer() # 执行outer函数，给变量f，outer函数执行完毕，内存清空？  # 外部调用函数内部函数的现象-->闭包函数
+        f() # outer函数外调用outer函数内部的inner函数
+        ```
+    
+  - 闭包（同时满足两个条件）
+
+    - 内部函数
+  - 内部函数引用外部变量
+
+## 开放封闭原则
+
+1. 对扩展是开放的
+
+2. 对修改是封闭的
+
+## 装饰器的固定结构
+
+```python 
+import time
+def wrapper(func):  # 装饰器
+    def inner(*args, **kwargs):
+        '''函数执行之前的内容扩展'''
+        ret = func(*args, **kwargs)
+         '''函数执行之后的内容扩展'''
+        return ret
+    return inner
+
+@wrapper  # =====>aaa=timmer(aaa)
+def aaa():
+    time.sleep(1)
+    print('fdfgdg')
+aaa()
+```
+
+
+```python
+def outer():
+    x = 10
+    def inner(): # 条件一： inner是内部函数
+        print(x)  # 条件二： 内部函数inner引用外部变量
+    return inner # 结论： 内部函数inner是一个闭包函数
+
+# inner函数是outer函数的局部变量， 所以inner函数不能在outer函数外部使用
+'''
+只有在outer函数执行时才能使用outer函数内的局部变量
+'''
+# outer()()
+f = outer()
+f()
+# 10
+```
+
+```python
+import time
+'''
+1. demand execute foo function
+2. calculate the time of foo running
+'''
+### method 1
+def show_time(func):
+    start = time.time()
+    func()
+    end = time.time()
+    print('spend: {}'.format(end- start))
+
+def foo():
+    print('foo...')
+    time.sleep(2)
+
+def bar():
+    print('bar ...')
+    time.sleep(3)
+
+show_time(foo)
+
+######## method 2
+def show_time(f):
+    def inner():
+        start = time.time()
+        f()
+        end = time.time()
+        print('spend: {}'.format(end- start))
+    return inner
+
+foo = show_time(foo)
+foo() # execute inner function 
+
+bar = show_time(foo)
+bar 
+######### method 3
+'python Syntactic sugar'
+@show_time    # Equivalent to foo = show_time(foo) 
+def foo():
+    print('foo...')
+    time.sleep(2)
+foo()
+#%%
+@show_time
+def bar():
+    print('bar ...')
+    time.sleep(3)
+bar()
+```
+## 功能函数加参数
+```PYTHON 
+def show_time(f):
+    def inner(x,y):
+        start = time.time()
+        f(x,y)
+        end = time.time()
+        print('spend: {}'.format(end- start))
+    return inner
+
+@show_time # add = show_time(add)
+def add(x, y):
+    print('x+y:' x+y)
+    time.sleep(2)
+add(1,2)
+```
+
+```python
+def show_time(f):
+    def inner(*x, **y):
+        start = time.time()
+        f(*x, **y)
+        end = time.time()
+        print('spend: {}'.format(end- start))
+    return inner
+
+@show_time # add = show_time(add)
+def add(*x, **y):
+    sum = 0
+    for i in x:
+        sum += i
+    print('sum: ', sum)
+    time.sleep(2)
+add(1,2,3,4,5)
+```
+## 装饰器函数加参数
+
+```PYTHON
+def logger(flag):
+    def show_time(f):
+        def inner(*x, **y):
+            start = time.time()
+            f(*x, **y)
+            end = time.time()
+            print('spend: {}'.format(end- start))
+            if flag == 'true':
+                print('print log')
+        return inner
+    return show_time
+
+
+@logger('true') # @show_time
+def add(*x, **y):
+    sum = 0
+    for i in x:
+        sum += i
+    print('sum: ', sum)
+    time.sleep(2)
+
+add(1,2,3,4,5)
+
+
+@logger('')
+def bar():
+    print('bar ...')
+    time.sleep(3)
+bar()
+
+'''
+@logger('') 做了两件事：
+
+    （1）logger(3)：得到闭包函数show_time，里面保存环境变量flag
+
+    （2）@show_time   ：add＝show_time(add)
+
+上面的time_logger是允许带参数的装饰器。
+它实际上是对原有装饰器的一个函数封装，并返回一个装饰器(一个含有参数的闭包函数)。
+当我 们使用@logger(3)调用的时候，Python能够发现这一层的封装，并把参数传递到装饰器的环境中。
+'''
+```
+
+## 多层装饰器
+
+```python 
+def makebold(fn):
+    def wrapper():
+        return "<b>" + fn() + "</b>"
+    return wrapper
+ 
+def makeitalic(fn):
+    def wrapper():
+        return "<i>" + fn() + "</i>"
+    return wrapper
+ 
+@makebold
+@makeitalic
+def hello():
+    return "hello alvin"
+ 
+hello()
+```
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201109200808.png" alt="多层装饰器"  title="多层装饰器" width="600" height="" /><figcaption><font color=green>多层装饰器</font></figcaption></center></figure>
+
+```python 
+def qqqxing(fun):
+    def inner(*args,**kwargs):
+        print('in qqxing: before')
+        ret = fun(*args,**kwargs)
+        print('in qqxing: after')
+        return ret
+    return inner
+
+def pipixia(fun):
+    def inner(*args,**kwargs):
+        print('in qqxing: before')
+        ret = fun(*args,**kwargs)
+        print('in qqxing: after')
+        return ret
+    return inner
+@qqqxing
+@pipixia
+def dapangxie():
+    print('饿了吗')
+dapangxie()
+
+'''
+@qqqxing和@pipixia的执行顺序：先执行qqqxing里面的 print('in qqxing: before')，然后跳到了pipixia里面的
+        print('in qqxing: before')
+        ret = fun(*args,**kwargs)
+        print('in qqxing: after')，完了又回到了qqqxing里面的 print('in qqxing: after')。所以就如下面的运行结果截图一样
+'''
+```
+<figure><center><img src="https://raw.githubusercontent.com/ld269440877/images/master/3CRTR/20201109204758.png" alt="20201109204758"  title="20201109204758" width="600" height="" /><figcaption><font color=green>20201109204758</font></figcaption></center></figure>
+
+## 统计多少个函数被装饰了的小应用
+
+```python 
+ 统计多少个函数被我装饰了
+l=[]
+def wrapper(fun):
+    l.append(fun)#统计当前程序中有多少个函数被装饰了
+    def inner(*args,**kwargs):
+        # l.append(fun)#统计本次程序执行有多少个带装饰器的函数被调用了
+        ret = fun(*args,**kwargs)
+        return ret
+    return inner
+
+@wrapper
+def f1():
+    print('in f1')
+
+@wrapper
+def f2():
+    print('in f2')
+
+@wrapper
+def f3():
+    print('in f3')
+print(l)
+
+'''
+[
+    <function f1 at 0x000001804E1145E0>,
+    <function f2 at 0x000001804E142160>,
+    <function f3 at 0x000001804E1421F0>
+    ]
+'''
+```
+
+## 类装饰器
+
+> 相比函数装饰器，类装饰器具有灵活度大、高内聚、封装性等优点。使用类装饰器还可以依靠类内部的__call__方法，当使用 @ 形式将装饰器附加到函数上时，就会调用此方法。
+
+```python 
+import time
+
+class Foo(object):
+    def __init__(self, func):
+        self._func = func
+
+    def __call__(self):
+        start_time=time.time()
+        self._func()
+        end_time=time.time()
+        print('spend %s'%(end_time-start_time))
+
+@Foo  #bar=Foo(bar)
+
+def bar():
+
+    print ('bar')
+    time.sleep(2)
+
+bar()    #bar=Foo(bar)()>>>>>>>没有嵌套关系了,直接active Foo的 __call__方法
+``` 
+## functools.wraps
+
+> 使用装饰器极大地复用了代码，但是他有一个缺点就是原函数的元信息不见了，比如函数的docstring、__name__、参数列表，先看例子：
+
+```python 
+def foo():
+    print("hello foo")
+
+print(foo.__name__)
+#####################
+
+def logged(func):
+    def wrapper(*args, **kwargs):
+
+        print (func.__name__ + " was called")
+        return func(*args, **kwargs)
+
+    return wrapper
+
+
+@logged
+def cal(x):
+   return x + x * x
+
+
+print(cal.__name__)
+
+########
+# foo
+# wrapper
+```
+解释：
+```python 
+@logged
+def f(x):
+   return x + x * x
+```
+等价于：
+```python 
+def f(x):
+    return x + x * x
+f = logged(f)
+``` 
+不难发现，函数f被wrapper取代了，当然它的docstring，__name__就是变成了wrapper函数的信息了。
+```python 
+print f.__name__    # prints 'wrapper'
+print f.__doc__     # prints None
+``` 
+
+这个问题就比较严重的，好在我们有functools.wraps，wraps本身也是一个装饰器，它能把原函数的元信息拷贝到装饰器函数中，这使得装饰器函数也有和原函数一样的元信
+```python 
+from functools import wraps
+ 
+ 
+def logged(func):
+ 
+    @wraps(func)
+ 
+    def wrapper(*args, **kwargs):
+        print (func.__name__ + " was called")
+        return func(*args, **kwargs)
+    return wrapper
+ 
+@logged
+def cal(x):
+   return x + x * x
+ 
+print(cal.__name__)  #cal
+``` 
+## 内置装饰器 
+
+@staticmathod
+
+@classmethod
+
+@property
+
+学习类的时候我们详细介绍的...
+```python
+##----------------foo函数先加载到内存,然后foo变量指向新的引用,所以递归里的foo是wrapper函数对象
+# def show_time(func):
+#
+#     def wrapper(n):
+#         ret=func(n)
+#         print("hello,world")
+#         return ret
+#     return wrapper
+#
+# @show_time# foo=show_time(foo)
+# def foo(n):
+#     if n==1:
+#         return 1
+#     return n*foo(n-1)
+# print(foo(6))
+
+
+########################
+def show_time(func):
+
+    def wrapper(n):
+        ret=func(n)
+        print("hello,world")
+        return ret
+    return wrapper
+
+@show_time# foo=show_time(foo)
+def foo(n):
+    def _foo(n):
+        if n==1:
+            return 1
+        return n*_foo(n-1)
+    return _foo(n)
+print(foo(6))
+```
+
+
+
+# References：
+
+[^1]: [Code Chunk](https://www.bookstack.cn/read/mpe/zh-cn-code-chunk.md)
+
+[^2]: [Py西游攻关之基础数据类型 - Yuan先生 - 博客园](https://www.cnblogs.com/yuanchenqi/articles/5782764.html)
+
+[^3]: [Py西游攻关之函数 - Yuan先生 - 博客园](https://www.cnblogs.com/yuanchenqi/articles/5828233.html)
+
+[^4]: [装饰器 - Yuan先生 - 博客园](https://www.cnblogs.com/yuanchenqi/articles/5830025.html)
+
+[^5]: [[转载]Python垃圾回收机制--完美讲解! - 简书](https://www.jianshu.com/p/1e375fb40506)
+
+[^6]: [win10 配置系统默认utf-8编码 - 聆风牧雨 - 博客园](https://www.cnblogs.com/walker-world/p/9548852.html)
+
+[^7]: [修改Windows10 命令终端cmd的编码为UTF-8 - 简书](https://www.jianshu.com/p/f40e494dc01d)
+
+[^8]: [人生苦短，我用Python（目录） - 海燕。 - 博客园](https://www.cnblogs.com/haiyan123/p/8387770.html#4046300)
+
+[^9]: [python-------装饰器 - 海燕。 - 博客园](https://www.cnblogs.com/haiyan123/p/7246007.html)

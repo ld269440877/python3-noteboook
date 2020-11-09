@@ -1466,6 +1466,8 @@ shutil.unpack_archive(zip_path, extract_dir)
 
 ## ⽂件简介
 
+>  流程：1 创建文件对象 2 调用文件方法进行操作 3 关闭文件
+
 ⽂件包括 ⽂本文件和⼆进制文件（声⾳，图像，视频) 从存储⽅式来说，⽂件在磁盘上的存储方式都是二进制形式，所以，文本⽂件其实也应该算二进制文件。先从他们的区别来说，虽然都是二进制⽂件，但是二进制代表的意思不一样。打个比方，⼀个人，我们可以叫他的大名，以叫他的小名，但其实都是代表这个人。
 二进制读写是将<font color='orange'>内存里面的数据</font>直接读写⼊文本中，
 ⽽⽂本，则是将<font color='red'>内存的数据先转换成了字符串</font>，再写⼊到文本中。
@@ -1483,21 +1485,170 @@ shutil.unpack_archive(zip_path, extract_dir)
 | access_mode | access_mode决定了打开文件的模式：只读，写入，追加等。所有可取值见如下的完全列表。这个参数是非强制的，默认文件访问模式为只读(r)。 |
 | buffering   | 如果buffering的值被设为0，就不会有寄存。<br>如果buffering的值取1，访问文件时会寄存行。<br>如果将buffering的值设为大于1的整数，表明了这就是的寄存区的缓冲大小。<br>如果取负值，寄存区的缓冲大小则为系统默认。 |
 
-|                    模式                    |                             描述                             |
-| :----------------------------------------: | :----------------------------------------------------------: |
-|                     r                      | 以只读⽅式打开⽂件。⽂件的指针将会放在⽂件的开头。这是默认模式 |
-|                     rb                     | 以⼆进制格式打开⼀个⽂件⽤于只读。⽂件指针将会放在⽂件的开头。 |
-|                     r+                     | 打开⼀个⽂件⽤于读写。⽂件指针将会放在⽂件的开头。 r+:可读可写的操作，覆盖的形式写入   源内容:ABC 以r+模式写入:DE 得到的文件内容:DEC |
-|                    rb+                     | 以⼆进制格式打开⼀个⽂件⽤于读写(具体见r+)。⽂件指针将会放在⽂件的开头。 |
-|                     w                      | 打开⼀个⽂件只⽤于写⼊。如果该⽂件已存在则开⽂件，并从开头开始编辑 输入:f.write(‘abc’);f.write(‘DEF’) 输出:abcDEF |
-| 容会被删除。如果该⽂件不存在，创建新⽂件。 |                                                              |
-|                     wb                     | 以⼆进制格式打开⼀个⽂件只⽤于写⼊。如果该⽂件已存在则打开⽂件，并从开头开始编辑，即原有内容会被删除。如果该⽂件不存在，创建新⽂件。 |
-|                     w+                     | 打开⼀个⽂件⽤于读写。如果该⽂件已存在则打开⽂件，并从开头开始编辑，即原有内容会被删除。如果该⽂件不存在，创建新⽂件。 |
-|                    wb+                     | 以⼆进制格式打开⼀个⽂件⽤于读写。如果该⽂件已存在则打开⽂件，并从开头开始编辑，即原有内容会被删除。如果该⽂件不存在，创建新⽂件。 |
-|                     a                      | 打开⼀个⽂件⽤于追加。如果该⽂件已存在，⽂件指针将会放在⽂件的结尾。也就是说，新的内容将会被写⼊到已有内容之后。如果该⽂件不存在，创建新⽂件进⾏写⼊。 |
-|                     ab                     | 以⼆进制格式打开⼀个⽂件⽤于追加。如果该⽂件已存在，⽂件指针将会放在⽂件的结尾。也就是说，新的内容将会被写⼊到已有内容之后。如果该⽂件不存在，创建新⽂件进行写⼊。 |
-|                     a+                     | 打开⼀个⽂件⽤于读写。如果该⽂件已存在，⽂件指针将会放在⽂件的结尾。⽂件打开时会是追加模式。如果该⽂件不存在，创建新⽂件⽤于读写。 |
-|                    ab+                     | 以⼆进制格式打开⼀个⽂件⽤于追加。如果该⽂件已存在，⽂件指针将会放在⽂件的结尾。如果该⽂件不存在，创建新⽂件⽤于读写。 |
+| 模式 |                             描述                             |
+| :--: | :----------------------------------------------------------: |
+|  r   | 以只读⽅式打开⽂件。⽂件的指针将会放在⽂件的开头。这是默认模式 |
+|  rb  | 以⼆进制格式打开⼀个⽂件⽤于只读。⽂件指针将会放在⽂件的开头。 |
+|  r+  | 打开⼀个⽂件⽤于读写。⽂件指针将会放在⽂件的开头。 r+:可读可写的操作，覆盖的形式写入   源内容:ABC 以r+模式写入:DE 得到的文件内容:DEC |
+| rb+  | 以⼆进制格式打开⼀个⽂件⽤于读写(具体见r+)。⽂件指针将会放在⽂件的开头。 |
+|  w   | 打开⼀个⽂件只⽤于写⼊。<br/>如果该⽂件已存在则开⽂件，并从开头开始编辑 输入:f.write(‘abc’);f.write(‘DEF’) 输出:abcDEF。 <br>如果容会被删除。如果该⽂件不存在，创建新⽂件。 |
+|  wb  | 以⼆进制格式打开⼀个⽂件只⽤于写⼊。如果该⽂件已存在则打开⽂件，并从开头开始编辑，即原有内容会被删除。如果该⽂件不存在，创建新⽂件。 |
+|  w+  | 打开⼀个⽂件⽤于读写。如果该⽂件已存在则打开⽂件，并从开头开始编辑，即原有内容会被删除。如果该⽂件不存在，创建新⽂件。 |
+| wb+  | 以⼆进制格式打开⼀个⽂件⽤于读写。如果该⽂件已存在则打开⽂件，并从开头开始编辑，即原有内容会被删除。如果该⽂件不存在，创建新⽂件。 |
+|  a   | 打开⼀个⽂件⽤于追加。如果该⽂件已存在，⽂件指针将会放在⽂件的结尾。也就是说，新的内容将会被写⼊到已有内容之后。如果该⽂件不存在，创建新⽂件进⾏写⼊。 |
+|  ab  | 以⼆进制格式打开⼀个⽂件⽤于追加。如果该⽂件已存在，⽂件指针将会放在⽂件的结尾。也就是说，新的内容将会被写⼊到已有内容之后。如果该⽂件不存在，创建新⽂件进行写⼊。 |
+|  a+  | 打开⼀个⽂件⽤于读写。如果该⽂件已存在，⽂件指针将会放在⽂件的结尾。⽂件打开时会是追加模式。如果该⽂件不存在，创建新⽂件⽤于读写。 |
+| ab+  | 以⼆进制格式打开⼀个⽂件⽤于追加。如果该⽂件已存在，⽂件指针将会放在⽂件的结尾。如果该⽂件不存在，创建新⽂件⽤于读写。 |
+
+```python 
+f=open('小重山2','r',encoding='utf8')
+# f.write()#报错 模式不匹配
+data=f.read(5)
+print(data)
+f.write('\nhello world \n')
+f.write('alex')
+
+#注意：if not close,数据会缓存，而不是磁盘！
+time.sleep(30)
+f.close()
+```
+
+```python 
+f=open('小重山','a',encoding='utf8')
+
+print(f.read(5))
+print(f.read(5))# 注意 ：汉字在这里占一个单位（in Py3）
+
+a=f.readline()
+print(a)
+
+print(f.readline())
+print(f.readline())#无论是read()还是readline(),光标会发生位置变化
+
+print(f.readlines())
+#['昨夜寒蛩不住鸣。\n', '惊回千里梦，已三更。\n', '起来独自绕阶行。\n', '人悄悄，帘外月胧明。\n', '白首为功名，旧山松竹老，阻归程。\n', '欲将心事付瑶琴。\n', '知音少，弦断有谁听。']
+
+data=f.readlines()#注意及时关闭文件
+f.close()
+
+
+number = 0
+for i in data:
+    number += 1
+
+    if number == 6:
+        i = ''.join([i.strip(), 'iiiii'])  # 取代万恶的+
+    print(i.strip())
+
+```
+
+```PYTHON 
+f = open('小重山', 'r')
+print(f.tell())#  取出光标位置
+print(f.read(2)) # 光标移动2个位置
+print(f.tell())
+#
+f.seek(0)#  移动光标到指定的位置， 文件开头
+print(f.read(4))
+
+#flush():同步将数据从缓存转移到磁盘上去，不需要等文件关闭
+## 进度条实例
+import sys,time
+for i in range(30):
+    sys.stdout.write("*")
+    sys.stdout.flush()
+    time.sleep(0.1)
+    
+#print的flush
+import sys,time
+for i in range(30):
+#
+    print('*',end='',flush=True)
+#
+    time.sleep(0.1)
+
+
+```
+
+```python
+f=open('小重山','r',encoding='utf8')
+#truncate（）：截断数据(不能在r模式下)
+#在w模式下：先清空，再写，再截断
+#在a模式下：直接将指定位置后的内容截断
+f.truncate(5)
+f.write('hello world')
+f.truncate(5)
+f.close()
+```
+
+```python
+# r+:光标默认在0位置，最后位置开始写
+# w+:先清空，再写读
+# a+:光标默认在最后位置
+f=open('小重山','r+',encoding='utf8')
+print(f.tell())
+print(f.readline())
+f.write('岳飞')
+print(f.tell())
+f.seek(0)
+print(f.readline())
+f.close()
+```
+
+```PYTHON 
+# 终极问题 如何在磁盘修改文件
+# 常规思路，由于磁盘存储机制不能完成
+number=0
+for line in f:
+    number+=1
+    if number==3:
+        f.write('alex')
+
+
+#只能采取重新创建一个文件的思路
+f_read=open('小重山','r',encoding='utf8')
+f_write = open('小重山2','w',encoding='utf8')
+
+number=0
+for line in f_read:
+    number+=1
+    if number==5:
+        line=''.join([line.strip(),'alex\n'])
+        # line='hello 岳飞\n'
+    f_write.write(line)
+#
+#
+f_read.close()
+f_write.close()
+```
+
+```PYTHON 
+######作业涉及方法
+# 1. strfunction : dict to str
+a=str({'beijing':{'1':111}})
+print(type(a))
+print(a)#     '{'beijing':{'1':111}}'
+# 2. eval function : str to dict
+a=eval(a)
+print(type(a))
+print(a['beijing'])
+
+# open a file then you can read text/bytes by different methods 
+f=open('log', 'r')
+f.readline()
+f.read()
+f.close()
+
+with open('log', 'r') as f:
+    f.readline()
+    f.read()
+print('hello')
+
+#with 同时管理多个文件对象, read and write and so on 
+with open('log1','r') as f_read, open('log2','w') as f_write:
+    for line in f_read:
+        f_write.write(line)
+```
 
 
 
@@ -1514,8 +1665,8 @@ shutil.unpack_archive(zip_path, extract_dir)
 | file.mode                                                    | 返回被打开文件的访问模式。                                   |
 | file.name                                                    | 返回文件的名称。                                             |
 | file.flush()                                                 | 刷新内部缓存，像标准输入fflush。这可能是一些类文件对象的一个空操作。 |
-| file.fileno()                                                | 返回所使用的底层实现，从操作系统I/O操作的整数文件描述符。    |
-| file.isatty()                                                | 如果文件被连接到一个tty(状)装置则返回True，否则返回False。   |
+| file.fileno()                                                | 返回所使用的底层实现，从操作系统I/O操作的整数文件描述符。文件id |
+| file.isatty()                                                | 如果文件被连接到一个tty(状)装置则返回True，否则返回False。终端 |
 | next(file)                                                   | 返回每次被调用时文件中的下一行。                             |
 | ==file.read([size])==                                        | 被传递的参数是要从已打开文件中读取的字节计数。<br>该方法从文件的开头开始读入，如果没有传入count，它会尝试尽可能多地读取更多的内容，很可能是直到文件的末尾。<br>read（）方法从一个打开的文件中读取一个字符串。需要重点注意的是，Python字符串可以是二进制数据，而不是仅仅是文字。 |
 | ==file.readline([size])==                                    | f.readline() 会从文件中读取单独的一行。<br>换行符为 '\n'。<br>f.readline() 如果返回一个空字符串, 说明已经已经读取到最后一行。 |
