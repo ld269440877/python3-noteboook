@@ -217,7 +217,7 @@ a is b -->False
 ## <font color='lightgreen' >浅拷贝与深拷贝</font>
 
 - 对象(容器变量)存储地址
-    
+  
     - 元素(数据)存储地址
 - 
   
@@ -3489,7 +3489,26 @@ next(f)
 # 列表生成表达式--生成数值
 list(f)-->[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ```
-
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+def foo():
+    print('a')
+    yield 1
+    print('b')
+    yield 2
+print(foo) # <function foo at 0x000001E4FCABBB80>           函数地址
+print(foo()) # <generator object foo at 0x000001E4FCA9AAC0> 生成器对象
+next(foo()) # a
+print(next(foo())) # a 1
+next(foo())# a
+print(next(foo())) # a 1
+print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+for i in foo():
+    print(i)
+# a
+# 1
+# b
+# 2
+```
 ```python
 # 加深对generator的next()与send(value)的理解.
 >>> def echo(value=None):
@@ -4837,7 +4856,7 @@ kkk()
 ```
 
     - 函数名可以作为返回值
-
+    
       - ```python
     #函数名可以作为返回值
         def outer():
@@ -4848,7 +4867,7 @@ kkk()
         f = outer() # 执行outer函数，给变量f，outer函数执行完毕，内存清空？  # 外部调用函数内部函数的现象-->闭包函数
         f() # outer函数外调用outer函数内部的inner函数
         ```
-    
+
   - 闭包（同时满足两个条件）
 
     - 内部函数
@@ -5142,7 +5161,7 @@ def bar():
     time.sleep(2)
 
 bar()    #bar=Foo(bar)()>>>>>>>没有嵌套关系了,直接active Foo的 __call__方法
-``` 
+```
 ## functools.wraps
 
 > 使用装饰器极大地复用了代码，但是他有一个缺点就是原函数的元信息不见了，比如函数的docstring、__name__、参数列表，先看例子：
@@ -5185,12 +5204,12 @@ def f(x):
 def f(x):
     return x + x * x
 f = logged(f)
-``` 
+```
 不难发现，函数f被wrapper取代了，当然它的docstring，__name__就是变成了wrapper函数的信息了。
 ```python 
 print f.__name__    # prints 'wrapper'
 print f.__doc__     # prints None
-``` 
+```
 
 这个问题就比较严重的，好在我们有functools.wraps，wraps本身也是一个装饰器，它能把原函数的元信息拷贝到装饰器函数中，这使得装饰器函数也有和原函数一样的元信
 ```python 
@@ -5211,7 +5230,7 @@ def cal(x):
    return x + x * x
  
 print(cal.__name__)  #cal
-``` 
+```
 ## 内置装饰器 
 
 @staticmathod

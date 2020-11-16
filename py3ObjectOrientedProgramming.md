@@ -1438,15 +1438,40 @@ shutil.unpack_archive(zip_path, extract_dir)
 
 
 
+# time
 
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+import time
+# 时间戳， 结构化时间，格式化时间
+# print(help(time))
+print(time.time())
+# 时间戳 1605099655.0186143
+print(time.localtime())
+# time.struct_time(tm_year=2020, tm_mon=11, tm_mday=11, tm_hour=20, tm_min=57, tm_sec=52, tm_wday=2, tm_yday=316, tm_isdst=0) 本地时间
 
+struct_time = time.localtime()
+print(time.strftime('%Y--%m--%d %H:%M:%S', struct_time))
+# 2020--11--11 21:05:21
+print(time.strptime('2020--11--11 21:05:21','%Y--%m--%d %H:%M:%S'))
+# time.struct_time(tm_year=2020, tm_mon=11, tm_mday=11, tm_hour=21, tm_min=5, tm_sec=21, tm_wday=2, tm_yday=316, tm_isdst=-1)
+a = time.strptime('2020--11--11 21:05:21','%Y--%m--%d %H:%M:%S')
+print(a.tm_year) # 2020
+print(a.tm_mday) # 11
+```
+# random 
 
-
-
-
-
-
-
+```python {cmd = true matplotlib=true code_block=true class= ' line-numbers'  continue='utf-8' output='markdown'} ##hide  代码隐藏
+import random
+verify_code = ''
+for i in range(5):
+    num = random.randrange(10)
+    char = chr(random.randrange(65, 91))
+    add = random.choice([num , char])
+    verify_code += str(add)
+print(verify_code)
+# KF46T
+# YT8YW
+```
 
 
 # ⽂件基础操作

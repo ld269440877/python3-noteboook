@@ -89,24 +89,3 @@ def logger(flag):
 
 #%%
 #%%
-l=[]
-def wrapper(fun):
-    l.append(fun)#统计当前程序中有多少个函数被装饰了
-    def inner(*args,**kwargs):
-        # l.append(fun)#统计本次程序执行有多少个带装饰器的函数被调用了
-        ret = fun(*args,**kwargs)
-        return ret
-    return inner
-
-@wrapper
-def f1():
-    print('in f1')
-
-@wrapper
-def f2():
-    print('in f2')
-
-@wrapper
-def f3():
-    print('in f3')
-print(l)
